@@ -27,7 +27,7 @@ def mocked_requests_get(*args, **kwargs):
         def json(self):
             return self.json_data
 
-    if args[0] == 'http://project-beta-inventory-api-1:8000/api/automobiles/':
+    if args[0] == 'http://inventory-api:8000/api/automobiles/':
         data = {
             "autos": [
                 {"href": "/api/automobiles/1/", "vin": "1", "sold": True},
