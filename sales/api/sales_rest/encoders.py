@@ -17,6 +17,7 @@ class SalespersonEncoder(ModelEncoder):
         "first_name",
         "last_name",
         "employee_id",
+        "id"
     ]
 
 class AutomobileEncoder(ModelEncoder):

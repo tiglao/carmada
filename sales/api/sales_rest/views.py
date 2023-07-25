@@ -121,10 +121,10 @@ def api_salespeople(request):
 
 
 @require_http_methods(["DELETE", "GET", "PUT"])
-def api_salesperson(request, employee_id):
+def api_salesperson(request, id):
     if request.method == "GET":
         try:
-            salesperson = Salesperson.objects.get(employee_id=employee_id)
+            salesperson = Salesperson.objects.get(id=id)
             return JsonResponse(
                 salesperson,
                 encoder=SalespersonEncoder,
@@ -136,7 +136,7 @@ def api_salesperson(request, employee_id):
             return response
     elif request.method == "DELETE":
         try:
-            salesperson = Salesperson.objects.get(employee_id=employee_id)
+            salesperson = Salesperson.objects.get(id=id)
             salesperson.delete()
             return JsonResponse(
                 salesperson,
@@ -148,9 +148,9 @@ def api_salesperson(request, employee_id):
     else: # PUT
         try:
             content = json.loads(request.body)
-            salesperson = Salesperson.objects.get(employee_id=employee_id)
+            salesperson = Salesperson.objects.get(id=id)
 
-            props = ["first_name", "last_name", "employee_id"]
+            props = ["first_name", "last_name", "employee_id", "id"]
             for prop in props:
                 if prop in content:
                     setattr(salesperson, prop, content[prop])
