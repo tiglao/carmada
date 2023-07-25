@@ -23,6 +23,7 @@ def get_autos():
             defaults={
                 "year": auto["year"],
                 "color": auto["color"],
+                "model": auto["model"]["manufacturer"]["name"] + " " + auto["model"]["name"],
                 }
         )
 

@@ -13,18 +13,32 @@ class AutoVO(models.Model):
 class Technician(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    employee_id = models.PositiveSmallIntegerField()
+    employee_id = models.CharField(max_length=100)
 
 
 class Appointment(models.Model):
-    date_time = models.CharField(max_length=100)
+    appt_status_choices = [
+        ("created", "created"),
+        ("canceled", "canceled"),
+        ("finished", "finished")
+    ]
+    date_time = models.DateTimeField()
     customer = models.CharField(max_length=100)
-    vip_status = models.PositiveSmallIntegerField()
+    vip_status = models.BooleanField(default=False)
     vin = models.CharField(max_length=100)
-    reason = models.CharField(max_length=100)
-    appt_status = models.PositiveSmallIntegerField()
+    reason = models.CharField(max_length=200)
+    appt_status = models.CharField(
+        max_length=100,
+        choices=appt_status_choices,
+        default="created"
+        )
     technician = models.ForeignKey(
         Technician,
         related_name="appointments",
         on_delete=models.CASCADE,
-    )
+        )
+
+    def update_vip_status(self):
+        if self.auto.sold:
+            self.vip_status = True
+            self.save()
