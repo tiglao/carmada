@@ -26,7 +26,6 @@ class ListSalesPerson extends React.Component {
             this.fetchSalespeople();
         } else {
         }
-
     }
 
     async fetchSalespeople() {
@@ -49,7 +48,6 @@ class ListSalesPerson extends React.Component {
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Employee ID</th>
-                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -60,9 +58,6 @@ class ListSalesPerson extends React.Component {
                                         <td>{salesperson.first_name}</td>
                                         <td>{salesperson.last_name}</td>
                                         <td>{salesperson.employee_id}</td>
-                                        <td><button onClick={() =>
-                                            this.handleEdit(salesperson.employee_id)} className="btn btn-link">Edit</button>
-                                        </td>
                                         <td><button onClick={() =>
                                             this.handleDelete(salesperson.id)} className="btn btn-link">Delete</button>
                                         </td>

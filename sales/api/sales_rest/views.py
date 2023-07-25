@@ -51,7 +51,7 @@ def api_sales(request):
 
 
 @require_http_methods(["DELETE", "GET", "PUT"])
-def api_sale(request, vin):
+def api_sale(request, id):
     if request.method == "GET":
         try:
             sale = Sale.objects.get(id=id)
@@ -80,7 +80,7 @@ def api_sale(request, vin):
             content = json.loads(request.body)
             sale = Sale.objects.get(id=id)
 
-            props = ["automobile", "customer", "salesperson", "price"]
+            props = ["automobile", "customer", "salesperson", "price", "id"]
             for prop in props:
                 if prop in content:
                     setattr(sale, prop, content[prop])
@@ -191,10 +191,10 @@ def api_customers(request):
 
 
 @require_http_methods(["DELETE", "GET", "PUT"])
-def api_customer(request, phone_number):
+def api_customer(request, id):
     if request.method == "GET":
         try:
-            customer = Customer.objects.get(phone_number=phone_number)
+            customer = Customer.objects.get(id=id)
             return JsonResponse(
                 customer,
                 encoder=CustomerEncoder,
@@ -206,7 +206,7 @@ def api_customer(request, phone_number):
             return response
     elif request.method == "DELETE":
         try:
-            customer = Customer.objects.get(phone_number=phone_number)
+            customer = Customer.objects.get(id=id)
             customer.delete()
             return JsonResponse(
                 customer,
@@ -218,9 +218,9 @@ def api_customer(request, phone_number):
     else: # PUT
         try:
             content = json.loads(request.body)
-            customer = Customer.objects.get(phone_number=phone_number)
+            customer = Customer.objects.get(id=id)
 
-            props = ["first_name", "last_name", "address", "phone_number"]
+            props = ["first_name", "last_name", "address", "phone_number", "id"]
             for prop in props:
                 if prop in content:
                     setattr(customer, prop, content[prop])
@@ -234,3 +234,13 @@ def api_customer(request, phone_number):
             response = JsonResponse({"message": "Does not exist"})
             response.status_code = 404
             return response
+
+
+@require_http_methods(["GET"])
+def api_automobileVO(request):
+    if request.method == "GET":
+        automobiles = AutomobileVO.objects.all()
+        return JsonResponse(
+            {"automobiles": automobiles},
+            encoder=AutomobileEncoder,
+        )

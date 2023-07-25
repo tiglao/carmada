@@ -26,20 +26,16 @@ class AddSalesPerson extends React.Component {
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json',
-          },
+          }
         };
         const response = await fetch(LocationUrl, fetchConfig);
         if (response.ok) {
-          const newSalesPerson = await response.json();
-
           const cleared = {
             first_name: '',
             last_name: '',
-            employee_id: '',
+            employee_id: ''
           };
           this.setState(cleared);
-
-          this.props.onFormSubmit();
         }
       }
 
@@ -70,7 +66,7 @@ class AddSalesPerson extends React.Component {
                     <label htmlFor="first_name">First Name</label>
                   </div>
                   <div className="form-floating mb-3">
-                    <input value={this.state.last_name} onChange={this.handleLnChange} placeholder="last_name number" required type="text" name="syle" id="syle" className="form-control" />
+                    <input value={this.state.last_name} onChange={this.handleLnChange} placeholder="last_name" required type="text" name="last_name" id="last_name" className="form-control" />
                     <label htmlFor="last_name">Last Name</label>
                   </div>
                   <div className="form-floating mb-3">
@@ -78,7 +74,7 @@ class AddSalesPerson extends React.Component {
                     <label htmlFor="employee_id">Employee ID</label>
                   </div>
                   <button className="btn btn-primary">Create</button>
-                  <a href="#" onClick={this.props.onCancel} last_name={{marginLeft: '10px', employee_id: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+                  <button href="#" onClick={this.props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</button>
                 </form>
               </div>
             </div>
@@ -86,6 +82,5 @@ class AddSalesPerson extends React.Component {
         );
       }
     }
-
 
 export default AddSalesPerson;

@@ -9,6 +9,7 @@ class CustomerEncoder(ModelEncoder):
         "last_name",
         "address",
         "phone_number",
+        "id"
     ]
 
 class SalespersonEncoder(ModelEncoder):
@@ -25,6 +26,7 @@ class AutomobileEncoder(ModelEncoder):
     properties = [
         "vin",
         "sold",
+        "id"
     ]
 
 class SalesEncoder(ModelEncoder):
@@ -33,7 +35,8 @@ class SalesEncoder(ModelEncoder):
         "price",
         "salesperson",
         "customer",
-        "automobile"
+        "automobile",
+        "id"
     ]
 
     encoders = {
