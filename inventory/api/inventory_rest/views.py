@@ -24,6 +24,7 @@ def api_automobiles(request):
             model_id = content["model_id"]
             model = VehicleModel.objects.get(pk=model_id)
             content["model"] = model
+            print(content)
             auto = Automobile.objects.create(**content)
             return JsonResponse(
                 auto,
