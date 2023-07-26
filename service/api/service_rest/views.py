@@ -126,11 +126,13 @@ def api_list_appts(request):
         try:
             content = json.loads(request.body)
             appt = Appointment.objects.create(**content)
+            appt.update_vip_status()
+            appt.save()
             return JsonResponse(
                 appt,
                 encoder=ApptListEncoder,
                 safe=False,
-            )
+                )
         except (json.JSONDecodeError, TypeError):
             response = JsonResponse({"message": "The provided JSON body could not be decoded or is not the correct format."})
             response.status_code = 400
@@ -142,6 +144,7 @@ def api_detail_appt(request, id, action=None):
     if request.method == "GET":
         try:
             appt = Appointment.objects.get(id=id)
+            print("this is the get:", appt)
             return JsonResponse(
                 appt,
                 encoder=ApptDetailEncoder,
@@ -171,6 +174,9 @@ def api_detail_appt(request, id, action=None):
             )
         Appointment.objects.filter(id=id).update(**content)
         appt = Appointment.objects.get(id=id)
+        appt.update_vip_status()
+        appt.save()
+        print("this should show vip status is true", appt)
         if action is None:
             pass
         elif action == "cancel":
@@ -181,7 +187,7 @@ def api_detail_appt(request, id, action=None):
             return JsonResponse(
                 {"message": "Invalid action for PUT request."},
                 status=400)
-        appt.save()
+
         return JsonResponse(
             appt,
             encoder=ApptDetailEncoder,

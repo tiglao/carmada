@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 function ApptList() {
     const [appts, setAppts] = useState([]);
+    const [autos, setAutos] = useState([]);
 
     useEffect(() => {
         fetchAppts();
+        fetchAutos();
     }, []);
 
     const handleCancel = async (id) => {
@@ -37,6 +39,13 @@ function ApptList() {
         }
     };
 
+    const fetchAutos = async () => {
+        const response = await fetch('http://localhost:8080/api/autosvo/')
+        if (response.ok) {
+            const data = await response.json();
+            setAutos(data.autos);
+        }
+    };
 
     return (
         <div>
@@ -59,11 +68,12 @@ function ApptList() {
                         console.log(appt)
                         const date = new Date(appt.date_time).toLocaleDateString();
                         const time = new Date(appt.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        const isVip = autos.some(auto => auto.vin === appt.vin && auto.sold);
                         return (
                             <tbody key={appt.id}>
                                 <tr className="col mb-3">
                                     <td>{appt.vin}</td>
-                                    <td>{appt.vip_status ? "Yes" : "No"}</td>
+                                    <td>{isVip ? "Yes" : "No"}</td>
                                     <td>{appt.customer}</td>
                                     <td>{date}</td>
                                     <td>{time}</td>

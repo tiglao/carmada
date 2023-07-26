@@ -12,6 +12,7 @@ import ApptForm from './ApptForm';
 import TechForm from './TechForm';
 import ApptList from './ApptList';
 import TechList from './TechList';
+import ApptHistoryList from './ApptHistoryList';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/salesperson" element={<ListSalesPerson />} />
           <Route path="/salesperson/new" element={<AddSalesPerson />} />
           <Route path="/appointments" element={<ApptList />} />
+          <Route path="/appointments/history" element={<ApptHistoryList />} />
           <Route path="/appointments/new" element={<ApptForm />} />
           <Route path="/technicians/new" element={<TechForm />} />
           <Route path="/technicians" element={<TechList />} />

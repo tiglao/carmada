@@ -44,6 +44,15 @@ const ApptForm = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const autoVoUrl = `http://localhost:8080/api/autosvo/`;
+        const autoResponse = await fetch(autoVoUrl);
+        let isVip = false;
+
+        if (autoResponse.ok) {
+          const autoData = await autoResponse.json();
+          isVip = autoData.autos.some(auto => auto.sold && auto.vin === form.vin);
+        }
+
         let data = {
           date_time: `${form.date}T${form.time}:00+00:00`,
           customer: form.customer,

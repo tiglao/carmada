@@ -22,6 +22,7 @@ def get_autos():
             vin=auto["vin"],
             defaults={
                 "year": auto["year"],
+                "sold": auto["sold"],
                 "color": auto["color"],
                 "model": auto["model"]["manufacturer"]["name"] + " " + auto["model"]["name"],
                 }
