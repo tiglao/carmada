@@ -8,6 +8,10 @@ import ListSales from './ListSales'
 import AddSales from './AddSales'
 import ListSalesPerson from './ListSalesPerson'
 import AddSalesPerson from './AddSalesPerson'
+import ApptForm from './ApptForm';
+import TechForm from './TechForm';
+import ApptList from './ApptList';
+import TechList from './TechList';
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
           <Route path="/sales/new" element={<AddSales />} />
           <Route path="/salesperson" element={<ListSalesPerson />} />
           <Route path="/salesperson/new" element={<AddSalesPerson />} />
+          <Route path="/appointments" element={<ApptList />} />
+          <Route path="/appointments/new" element={<ApptForm />} />
+          <Route path="/technicians/new" element={<TechForm />} />
+          <Route path="/technicians" element={<TechList />} />
         </Routes>
       </div>
     </BrowserRouter>

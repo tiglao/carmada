@@ -15,7 +15,6 @@ from .models import AutoVO, Technician, Appointment
 def api_poll_autos(request):
     if request.method == "GET":
         autos = AutoVO.objects.all()
-        print("these are autos:", autos)
         return JsonResponse(
             {"autos": autos},
             encoder=AutoVOEncoder,
@@ -92,15 +91,32 @@ def api_detail_tech(request, id):
     #         return response
 
 
-@require_http_methods(["GET", "POST"])
+def serialize_appointment(appt):
+    return {
+        "id": appt.id,
+        "date_time": appt.date_time,
+        "customer": appt.customer,
+        "vip_status": appt.vip_status,
+        "vin": appt.vin,
+        "reason": appt.reason,
+        "appt_status": appt.appt_status,
+        "technician": {
+            "first_name": appt.technician.first_name,
+            "last_name": appt.technician.last_name,
+            "employee_id": appt.technician.employee_id
+        }
+    }
+
+
 def api_list_appts(request):
     if request.method == "GET":
         try:
-            appt = Appointment.objects.all()
-            appts = list(appt.values())
+            appts = Appointment.objects.all()
+            appts_serialized = [serialize_appointment(appt) for appt in appts]
             return JsonResponse(
-                {"appts": list(appts)},
+                {"appts": appts_serialized},
                 encoder=ApptListEncoder,
+                safe=False,
             )
         except Appointment.DoesNotExist:
             response = JsonResponse({"message": "There are no appointments in the database, or they are not available."})
