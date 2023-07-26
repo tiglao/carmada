@@ -31,11 +31,13 @@ def api_sales(request):
             payload["automobile"] = AutomobileVO.objects.get(vin=content["vin"])
             print(payload["automobile"])
             print("-----------------------------------")
+            if content["price"] == str:
+                content["price"] = int(content["price"])
             payload["price"] = content["price"]
 
             print(payload)
             print("-----------------------------------")
-
+            print(payload)
             sale = Sale.objects.create(**payload)
             return JsonResponse(
                 sale,

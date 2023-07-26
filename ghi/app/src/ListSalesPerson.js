@@ -1,89 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-class ListSalesPerson extends React.Component {
+function ListSalesperson() {
+    const [salesperson, setSalesperson] = useState([]);
 
-    constructor(props) {
-        super(props)
+    useEffect(() => {
+        fetchSalesperson();
+    }, []);
 
-        this.state = {
-            salespeople: [],
-        }
-        this.fetchSalespeople = this.fetchSalespeople.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-    }
-
-    componentDidMount() {
-        this.fetchSalespeople();
-    }
-
-    async handleDelete(sID){
-        const response = await fetch(`http://localhost:8090/api/salespeople/${sID}`, {
+    const handleDelete = async (id) => {
+        const response = await fetch(`http://localhost:8090/api/salespeople/${id}`, {
             method: 'DELETE',
         });
 
         if (response.ok) {
-            this.fetchSalespeople();
-        } else {
+            fetchSalesperson();
         }
-    }
+    };
 
-    async fetchSalespeople() {
+    const fetchSalesperson = async () => {
         const response = await fetch('http://localhost:8090/api/salespeople/')
         if (response.ok) {
-            const data = await response.json()
-            console.log(data)
-            this.setState({salespeople: data.salesperson})
+            const data = await response.json();
+            setSalesperson(data.salesperson);
         }
-    }
+    };
 
-    render() {
-        return (
-            <div>
-                <h1>Salespeople</h1>
-                <div className="mt-4">
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Employee ID</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        {this.state.salespeople.map(salesperson => {
-                            return (
-                                <tbody key={salesperson.employee_id}>
-                                    <tr className="col mb-3">
-                                        <td>{salesperson.first_name}</td>
-                                        <td>{salesperson.last_name}</td>
-                                        <td>{salesperson.employee_id}</td>
-                                        <td><button onClick={() =>
-                                            this.handleDelete(salesperson.id)} className="btn btn-link">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            );
-                        })}
-                    </table>
+    return (
+        <div>
+            <h1>Sales</h1>
+            <div className="mt-4">
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Employee ID</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
 
-                    <div className="mt-5">
-                        {this.state.salespeople.length < 1 ? (
-                            <>
-                                <p>There are no salespeople</p>
-                                <Link to="/salesperson/new">Add one here.</Link>
-                            </>
-                        ) : (
-                            <>
-                                <p>Need to add a new salesperson?</p>
-                                <Link to="/salesperson/new">Add another here.</Link>
-                            </>
-                        )}
-                    </div>
+                    {salesperson.map(salesperson => {
+                        return (
+                            <tbody key={salesperson.id}>
+                                <tr className="col mb-3">
+                                    <td>{salesperson.first_name}</td>
+                                    <td>{salesperson.last_name}</td>
+                                    <td>{salesperson.employee_id}</td>
+                                    <td>
+                                        <button onClick={() => handleDelete(salesperson.id)} className="btn btn-link">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        )
+                    })}
+                </table>
+
+                <div className="mt-5">
+                    {salesperson.length < 1 ? (
+                        <>
+                            <p>There are no salespeople!</p>
+                            <Link to="/salesperson/new">Add one here.</Link>
+                        </>
+                    ) : (
+                        <>
+                            <p>Need to add a new salesperson?</p>
+                            <Link to="/salesperson/new">Add another here.</Link>
+                        </>
+                    )}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default ListSalesPerson;
+export default ListSalesperson;

@@ -1,156 +1,160 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
-class AddSales extends React.Component {
+const AddSales = (props) => {
+    const [form, setForm] = useState({
+        employee_id: '',
+        phone_number: '',
+        vin: '',
+        price: '',
+        salesperson: [],
+        customers: [],
+        automobiles: []
+    });
 
-    constructor(props) {
-        super(props)
-        this.state = {
-          salesperson: '',
-          customer: '',
-          automobile: '',
-          price: '',
-          salespeople: [],
-          customers: [],
-          automobiles: []
-        };
-        this.handleSalespersonChange = this.handleSalespersonChange.bind(this);
-        this.handleCustomerChange = this.handleCustomerChange.bind(this);
-        this.handleAutomobileChange = this.handleAutomobileChange.bind(this);
-        this.handlePriceChange = this.handlePriceChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
+    useEffect(() => {
+        getArrays();
+    }, []);
 
-      async handleSubmit(event) {
+    const getArrays = async () => {
+        let response = await fetch('http://localhost:8090/api/customers/')
+        if (response.ok) {
+            const data = await response.json();
+            setForm(previousState => {
+                return { ...previousState, customers: data.customer }
+            });
+        }
+
+        response = await fetch('http://localhost:8090/api/salespeople/')
+        if (response.ok) {
+            const data = await response.json();
+                        setForm(previousState => {
+                return { ...previousState, salesperson: data.salesperson }
+            });
+        }
+
+        response = await fetch('http://localhost:8090/api/automobilevo/')
+        if (response.ok) {
+            const data = await response.json();
+            setForm(previousState => {
+                return { ...previousState, automobiles: data.automobiles }
+            });
+        }
+    };
+
+    const handleChange = (event) => {
+        setForm({
+          ...form,
+          [event.target.name]: event.target.value
+        });
+    };
+
+    const handleSalespersonChange = async (event) => {
+        const value = event.target.value;
+        setForm(previousState => {
+            return { ...previousState, employee_id: value }
+        });
+    }
+
+    const handleCustomerChange = async (event) => {
+        const value = event.target.value;
+        setForm(previousState => {
+            return { ...previousState, phone_number: value }
+        });
+    }
+
+    const handleAutomobileChange = async (event) => {
+        const value = event.target.value;
+        setForm(previousState => {
+            return { ...previousState, vin: value }
+        });
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = {...this.state};
-        delete data.salespeople;
-        delete data.customers;
-        delete data.automobiles;
 
-        const LocationUrl = 'http://localhost:8090/api/sales/';
+        let data = {
+          employee_id: form.employee_id,
+          phone_number: form.phone_number,
+          vin: form.vin,
+          price: form.price
+        };
+
+        const url = 'http://localhost:8090/api/sales/';
         const fetchConfig = {
           method: "post",
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json',
-          }
+          },
         };
-        const response = await fetch(LocationUrl, fetchConfig);
+        const response = await fetch(url, fetchConfig);
         if (response.ok) {
-          const cleared = {
-            salesperson: '',
-            customer: '',
-            automobile: '',
-            price: ''
-          };
-          this.setState(cleared);
+          setForm({
+            employee_id: '',
+            phone_number: '',
+            vin: '',
+            price: '',
+            salesperson: [],
+            customers: [],
+            automobiles: []
+          });
         }
-      }
+        getArrays()
+    };
 
-    handleSalespersonChange(event) {
-        const value = event.target.value;
-        this.setState({salesperson: value})
-        }
-
-    handleCustomerChange(event) {
-        const value = event.target.value;
-        this.setState({customer: value})
-        }
-
-    handleAutomobileChange(event) {
-        const value = event.target.value;
-        this.setState({automobile: value})
-        }
-
-    handlePriceChange(event) {
-        const value = event.target.value;
-        this.setState({price: value})
-        }
-
-    async componentDidMount() {
-        let c_url = 'http://localhost:8090/api/customers/';
-
-        let c_response = await fetch(c_url);
-        if (c_response.ok) {
-            let data = await c_response.json();
-            this.setState({customers: data.customer});
-        }
-
-        let s_url = 'http://localhost:8090/api/salespeople/';
-
-        let s_response = await fetch(s_url);
-        if (s_response.ok) {
-            let data = await s_response.json();
-            this.setState({salespeople: data.salesperson});
-        }
-
-        let a_url = 'http://localhost:8090/api/automobilevo/';
-
-        let a_response = await fetch(a_url);
-        if (a_response.ok) {
-            let data = await a_response.json();
-            this.setState({automobiles: data.automobiles});
-        }
-
-
-    }
-
-      render() {
-        return (
-          <div className="row">
-            <div className="offset-3 col-6">
-              <div className="shadow p-4 mt-4">
-                <h1>Add a Sale</h1>
-                <form onSubmit={this.handleSubmit} id="create-sale-form">
-                  <div className="mb-3">
-                    <select value={this.state.salesperson} onChange={this.handleSalespersonChange} required name="salesperson" id="salesperson" className="form-select">
-                      <option value="">Choose a Salesperson:</option>
-                      {this.state.salespeople.map(salesperson => {
+    return (
+      <div className="row">
+        <div className="offset-3 col-6">
+          <div className="shadow p-4 mt-4">
+            <h1>Create a Sale</h1>
+            <form onSubmit={handleSubmit} id="create-customer-form">
+                <div className="mb-3">
+                    <select onChange={handleSalespersonChange} required name="salesperson" id="salesperson" className="form-select">
+                      <option>Choose a Salesperson:</option>
+                      {form.salesperson.map(person => {
                         return (
-                          <option key={salesperson.id} value={salesperson} style={{textTransform: 'capitalize'}}>
-                            {salesperson.first_name + " " + salesperson.last_name}
+                          <option key={person.id} value={person.employee_id} style={{textTransform: 'capitalize'}}>
+                            {person.first_name + " " + person.last_name}
                           </option>
                         );
                       })}
                     </select>
-                  </div>
-                  <div className="mb-3">
-                    <select value={this.state.customer} onChange={this.handleCustomerChange} required name="customer" id="customer" className="form-select">
-                      <option value="">Choose a Customer:</option>
-                      {this.state.customers.map(customer => {
+                </div>
+                <div className="mb-3">
+                    <select onChange={handleCustomerChange} required name="customers" id="customers" className="form-select">
+                      <option>Choose a Customer:</option>
+                      {form.customers.map(customers => {
                         return (
-                          <option key={customer.id} value={customer} style={{textTransform: 'capitalize'}}>
-                            {customer.first_name + " " + customer.last_name}
+                          <option key={customers.id} value={customers.phone_number} style={{textTransform: 'capitalize'}}>
+                            {customers.first_name + " " + customers.last_name}
                           </option>
                         );
                       })}
                     </select>
-                  </div>
-                  <div className="mb-3">
-                    <select value={this.state.automobile} onChange={this.handleAutomobileChange} required name="automobile" id="automobile" className="form-select">
-                      <option value="">Choose an Automobile by VIN:</option>
-                      {this.state.automobiles.map(automobile => {
+                </div>
+                <div className="mb-3">
+                    <select onChange={handleAutomobileChange} required name="automobiles" id="automobiles" className="form-select" multiple={false}>
+                      <option>Choose an automobile:</option>
+                      {form.automobiles.map(automobiles => {
                         return (
-                          <option key={automobile.id} value={automobile} style={{textTransform: 'capitalize'}}>
-                            {automobile.vin}
+                          <option key={automobiles.id} value={automobiles.vin} style={{textTransform: 'capitalize'}}>
+                            {automobiles.vin}
                           </option>
                         );
                       })}
                     </select>
-                  </div>
-                  <div className="form-floating mb-3">
-                    <input value={this.state.price} onChange={this.handlePriceChange} placeholder="price" required type="text" name="price" id="price" className="form-control" />
+                </div>
+                <div className="form-floating mb-3">
+                    <input value={form.price} onChange={handleChange} placeholder="price" required type="text" name="price" id="price" className="form-control" />
                     <label htmlFor="price">Price</label>
-                  </div>
-                  <button className="btn btn-primary">Create</button>
-                  <button href="#" onClick={this.props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</button>
-                </form>
-              </div>
-            </div>
+                </div>
+                <button className="btn btn-primary">Create</button>
+                <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+            </form>
           </div>
-        );
-      }
-    }
+        </div>
+      </div>
+    );
+}
 
 export default AddSales;

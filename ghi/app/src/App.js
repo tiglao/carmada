@@ -6,8 +6,9 @@ import ListCustomers from './ListCustomers'
 import AddCustomer from './AddCustomer'
 import ListSales from './ListSales'
 import AddSales from './AddSales'
-import ListSalesPerson from './ListSalesPerson'
+import ListSalesPerson from './ListSalesperson.js'
 import AddSalesPerson from './AddSalesPerson'
+import SalesHistory from './SalesHistory'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/sales/new" element={<AddSales />} />
           <Route path="/salesperson" element={<ListSalesPerson />} />
           <Route path="/salesperson/new" element={<AddSalesPerson />} />
+          <Route path="/saleshistory" element={<SalesHistory />} />
         </Routes>
       </div>
     </BrowserRouter>
