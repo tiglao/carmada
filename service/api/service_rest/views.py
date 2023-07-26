@@ -15,7 +15,6 @@ from .models import AutoVO, Technician, Appointment
 def api_poll_autos(request):
     if request.method == "GET":
         autos = AutoVO.objects.all()
-        print("these are autos:", autos)
         return JsonResponse(
             {"autos": autos},
             encoder=AutoVOEncoder,
@@ -92,15 +91,32 @@ def api_detail_tech(request, id):
     #         return response
 
 
-@require_http_methods(["GET", "POST"])
+def serialize_appointment(appt):
+    return {
+        "id": appt.id,
+        "date_time": appt.date_time,
+        "customer": appt.customer,
+        "vip_status": appt.vip_status,
+        "vin": appt.vin,
+        "reason": appt.reason,
+        "appt_status": appt.appt_status,
+        "technician": {
+            "first_name": appt.technician.first_name,
+            "last_name": appt.technician.last_name,
+            "employee_id": appt.technician.employee_id
+        }
+    }
+
+
 def api_list_appts(request):
     if request.method == "GET":
         try:
-            appt = Appointment.objects.all()
-            appts = list(appt.values())
+            appts = Appointment.objects.all()
+            appts_serialized = [serialize_appointment(appt) for appt in appts]
             return JsonResponse(
-                {"appts": list(appts)},
+                {"appts": appts_serialized},
                 encoder=ApptListEncoder,
+                safe=False,
             )
         except Appointment.DoesNotExist:
             response = JsonResponse({"message": "There are no appointments in the database, or they are not available."})
@@ -110,11 +126,13 @@ def api_list_appts(request):
         try:
             content = json.loads(request.body)
             appt = Appointment.objects.create(**content)
+            appt.update_vip_status()
+            appt.save()
             return JsonResponse(
                 appt,
                 encoder=ApptListEncoder,
                 safe=False,
-            )
+                )
         except (json.JSONDecodeError, TypeError):
             response = JsonResponse({"message": "The provided JSON body could not be decoded or is not the correct format."})
             response.status_code = 400
@@ -126,6 +144,7 @@ def api_detail_appt(request, id, action=None):
     if request.method == "GET":
         try:
             appt = Appointment.objects.get(id=id)
+            print("this is the get:", appt)
             return JsonResponse(
                 appt,
                 encoder=ApptDetailEncoder,
@@ -155,6 +174,9 @@ def api_detail_appt(request, id, action=None):
             )
         Appointment.objects.filter(id=id).update(**content)
         appt = Appointment.objects.get(id=id)
+        appt.update_vip_status()
+        appt.save()
+        print("this should show vip status is true", appt)
         if action is None:
             pass
         elif action == "cancel":
@@ -165,7 +187,7 @@ def api_detail_appt(request, id, action=None):
             return JsonResponse(
                 {"message": "Invalid action for PUT request."},
                 status=400)
-        appt.save()
+
         return JsonResponse(
             appt,
             encoder=ApptDetailEncoder,

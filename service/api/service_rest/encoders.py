@@ -28,6 +28,9 @@ class ApptListEncoder(ModelEncoder):
         "date_time",
         "technician",
     ]
+    encoders = {
+        "technician": TechEncoder(),
+    }
 
 
 class ApptDetailEncoder(ModelEncoder):
@@ -40,8 +43,7 @@ class ApptDetailEncoder(ModelEncoder):
         "vip_status",
         "vin",
         "reason",
-        "appt_status",
-        "technician"
+        "appt_status"
     ]
     encoders = {
         "technician": TechEncoder(),
