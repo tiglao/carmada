@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import MainPage from './MainPage';
 import Nav from './Nav';
 import ListCustomers from './ListCustomers'
@@ -13,6 +13,10 @@ import TechForm from './TechForm';
 import ApptList from './ApptList';
 import TechList from './TechList';
 import ApptHistoryList from './ApptHistoryList';
+import MakeList from './MakeList';
+import MakeForm from './MakeForm';
+import ModelList from './ModelList';
+import ModelForm from './ModelForm';
 
 function App() {
   return (
@@ -32,6 +36,10 @@ function App() {
           <Route path="/appointments/new" element={<ApptForm />} />
           <Route path="/technicians/new" element={<TechForm />} />
           <Route path="/technicians" element={<TechList />} />
+          <Route path="/manufacturers" element={<MakeList />} />
+          <Route path="/manufacturers/new" element={<MakeForm />} />
+          <Route path="/models" element={<ModelList />} />
+          <Route path="/models/new" element={<ModelForm />} />
         </Routes>
       </div>
     </BrowserRouter>
