@@ -6,7 +6,7 @@ import ListCustomers from './ListCustomers'
 import AddCustomer from './AddCustomer'
 import ListSales from './ListSales'
 import AddSales from './AddSales'
-import ListSalesPerson from './ListSalesperson.js'
+import ListSalesPerson from './ListSalesPerson.js'
 import AddSalesPerson from './AddSalesPerson'
 import ApptForm from './ApptForm';
 import TechForm from './TechForm';
@@ -41,6 +41,7 @@ function App() {
           <Route path="/manufacturers/new" element={<MakeForm />} />
           <Route path="/models" element={<ModelList />} />
           <Route path="/models/new" element={<ModelForm />} />
+          <Route path="/saleshistory" element={<SalesHistory />} />
         </Routes>
       </div>
     </BrowserRouter>
