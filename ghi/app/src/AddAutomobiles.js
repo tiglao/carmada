@@ -8,7 +8,7 @@ const AddAutomobiles = (props) => {
         vin: '',
         model: '',
         sold: '',
-        models: [],
+        models: []
         });
 
     useEffect(() => {
@@ -39,12 +39,19 @@ const AddAutomobiles = (props) => {
         });
     }
 
-    const handleBooleanChange = async (event) => {
-      const value = event.target.value;
-      setForm(previousState => {
-          return { ...previousState, sold: value.state }
-      });
-  }
+    const handleCancel = async (event) => {
+      console.log("cancel")
+      setForm({
+          href: '',
+          color: '',
+          year: '',
+          vin: '',
+          model: '',
+          sold: '',
+          models: []
+        });
+        getArrays()
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -115,7 +122,7 @@ const AddAutomobiles = (props) => {
                     <label htmlFor="vin">VIN</label>
                   </div>
                 <button className="btn btn-primary">Create</button>
-                <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+                <a href="#" onClick={handleCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
             </form>
           </div>
         </div>

@@ -14,6 +14,15 @@ const TechForm = (props) => {
         });
     };
 
+    const handleCancel = async (event) => {
+      console.log("cancel")
+      setForm({
+          firstName: '',
+          lastName: '',
+          employeeId: ''
+        });
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -37,7 +46,7 @@ const TechForm = (props) => {
           setForm({
             firstName: '',
             lastName: '',
-            employeeId: '',
+            employeeId: ''
           });
 
           props.onFormSubmit();
@@ -63,7 +72,7 @@ const TechForm = (props) => {
                 <label htmlFor="employeeId">Employee ID</label>
               </div>
               <button className="btn btn-primary">Create</button>
-              <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+              <a href="#" onClick={handleCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
             </form>
           </div>
         </div>

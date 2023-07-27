@@ -21,6 +21,16 @@ const ModelForm = (props) => {
       }
     };
 
+    const handleCancel = async (event) => {
+      setForm({
+          name: '',
+          picture_url: '',
+          manufacturer_id: ''
+        });
+
+        fetchManufacturers();
+    };
+
     const handleChange = (event) => {
         setForm({
           ...form,
@@ -51,7 +61,7 @@ const ModelForm = (props) => {
           setForm({
             name: '',
             picture_url: '',
-            manufacturer_id: '',
+            manufacturer_id: ''
           });
         }
     };
@@ -81,7 +91,7 @@ const ModelForm = (props) => {
                 </select>
               </div>
               <button className="btn btn-primary">Create</button>
-              <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+              <a href="#" onClick={handleCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
             </form>
           </div>
         </div>

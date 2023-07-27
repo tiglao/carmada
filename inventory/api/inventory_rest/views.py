@@ -28,9 +28,8 @@ def api_automobiles(request):
             if type(content["model"]) == str:
                 content["model"] = int(content["model"])
 
-            print(content)
             model_id = content["model"]
-            print(model_id)
+
             model = VehicleModel.objects.get(id=model_id)
 
             content["model"] = model

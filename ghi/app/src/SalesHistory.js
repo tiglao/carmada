@@ -55,7 +55,7 @@ const SalesHistory = (props) => {
         <div className="row">
           <div className="offset-3 col-6">
             <div className="shadow p-4 mt-4">
-              <h1>Create a Sale</h1>
+              <h1>Salesperson History</h1>
               <form onSubmit={handleSubmit} id="create-customer-form">
                   <div className="mb-3">
                       <select onChange={handleSalespersonChange} required name="salespeople" id="salespeople" className="form-select">

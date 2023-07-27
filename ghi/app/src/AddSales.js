@@ -102,6 +102,20 @@ const AddSales = (props) => {
         getArrays()
     };
 
+    const handleCancel = async (event) => {
+      console.log("cancel")
+      setForm({
+          employee_id: '',
+          phone_number: '',
+          vin: '',
+          price: '',
+          salesperson: [],
+          customers: [],
+          automobiles: []
+        });
+    getArrays()
+  };
+
     return (
       <div className="row">
         <div className="offset-3 col-6">
@@ -149,7 +163,7 @@ const AddSales = (props) => {
                     <label htmlFor="price">Price</label>
                 </div>
                 <button className="btn btn-primary">Create</button>
-                <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+                <a href="#" onClick={handleCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
             </form>
           </div>
         </div>

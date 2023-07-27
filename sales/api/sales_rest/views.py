@@ -19,25 +19,17 @@ def api_sales(request):
             payload = {}
             # get the salesperson id
             payload["salesperson"] = Salesperson.objects.get(employee_id = content["employee_id"])
-            print(payload["salesperson"])
-            print("-----------------------------------")
 
             # get the phone number
             payload["customer"] = Customer.objects.get(phone_number = content["phone_number"])
-            print(payload["customer"])
-            print("-----------------------------------")
 
             # get the vin
             payload["automobile"] = AutomobileVO.objects.get(vin=content["vin"])
-            print(payload["automobile"])
-            print("-----------------------------------")
+
             if content["price"] == str:
                 content["price"] = int(content["price"])
             payload["price"] = content["price"]
 
-            print(payload)
-            print("-----------------------------------")
-            print(payload)
             sale = Sale.objects.create(**payload)
             return JsonResponse(
                 sale,
