@@ -175,11 +175,13 @@ def api_vehicle_models(request):
     else:
         try:
             content = json.loads(request.body)
-            if content["price"] == str:
-                content["price"] = int(content["price"])
             manufacturer_id = content["manufacturer_id"]
+            print(manufacturer_id)
+            if type(manufacturer_id) == str:
+                manufacturer_id = int(manufacturer_id)
             manufacturer = Manufacturer.objects.get(id=manufacturer_id)
             content["manufacturer"] = manufacturer
+            print(content)
             model = VehicleModel.objects.create(**content)
             return JsonResponse(
                 model,

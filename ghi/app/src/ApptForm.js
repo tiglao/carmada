@@ -137,7 +137,7 @@ const ApptForm = (props) => {
                 <label htmlFor="reason">Reason for Visit</label>
               </div>
               <button className="btn btn-primary">Create</button>
-              <a href="#" onClick={handleCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+              <button onClick={handleCancel} className="btn btn-secondary mx-2">Cancel</button>
             </form>
           </div>
         </div>

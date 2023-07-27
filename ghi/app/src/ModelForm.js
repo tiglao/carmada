@@ -46,7 +46,7 @@ const ModelForm = (props) => {
           picture_url: form.picture_url,
           manufacturer_id: form.manufacturer,
         };
-
+        console.log(data)
         const modelUrl = 'http://localhost:8100/api/models/';
         const fetchConfig = {
           method: "post",
@@ -91,7 +91,7 @@ const ModelForm = (props) => {
                 </select>
               </div>
               <button className="btn btn-primary">Create</button>
-              <a href="#" onClick={handleCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+              <button onClick={handleCancel} className="btn btn-secondary mx-2">Cancel</button>
             </form>
           </div>
         </div>
