@@ -14,6 +14,15 @@ const AddSalesperson = (props) => {
         });
     };
 
+    const handleCancel = async (event) => {
+      console.log("cancel")
+      setForm({
+        first_name: '',
+        last_name: '',
+        employee_id: ''
+        });
+  };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -61,7 +70,7 @@ const AddSalesperson = (props) => {
                     <label htmlFor="employee_id">Employee ID</label>
                   </div>
                 <button className="btn btn-primary">Create</button>
-                <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+                <button onClick={handleCancel} className="btn btn-secondary mx-2">Cancel</button>
             </form>
           </div>
         </div>

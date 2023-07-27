@@ -15,7 +15,6 @@ const ApptForm = (props) => {
       fetchTechnicians();
     }, []);
 
-
     async function fetchTechnicians() {
       const url = 'http://localhost:8080/api/technicians/';
 
@@ -33,12 +32,25 @@ const ApptForm = (props) => {
       }
     }
 
-
     const handleChange = (event) => {
         setForm({
           ...form,
           [event.target.name]: event.target.value
         });
+    };
+
+    const handleCancel = async (event) => {
+      console.log("cancel")
+      setForm({
+        vin: '',
+        customer: '',
+        date: '',
+        time: '',
+        technician: '',
+        reason: '',
+        technicians: [],
+        });
+        fetchTechnicians()
     };
 
     const handleSubmit = async (event) => {
@@ -85,7 +97,6 @@ const ApptForm = (props) => {
           setForm(prevState => ({...prevState, ...cleared}));
         }
       };
-
     return (
       <div className="row">
         <div className="offset-3 col-6">
@@ -123,7 +134,7 @@ const ApptForm = (props) => {
                 <label htmlFor="reason">Reason for Visit</label>
               </div>
               <button className="btn btn-primary">Create</button>
-              <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+              <button onClick={handleCancel} className="btn btn-secondary mx-2">Cancel</button>
             </form>
           </div>
         </div>

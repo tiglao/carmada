@@ -15,6 +15,16 @@ function ModelList() {
         }
     };
 
+    const handleDelete = async (id) => {
+        const response = await fetch(`http://localhost:8100/api/models/${id}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            fetchModels();
+        }
+    };
+
     return (
         <div>
             <h1>Models</h1>
@@ -25,6 +35,7 @@ function ModelList() {
                             <th>Name</th>
                             <th>Manufacturer</th>
                             <th>Picture</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +44,9 @@ function ModelList() {
                                 <td>{model.name}</td>
                                 <td>{model.manufacturer.name}</td>
                                 <td><img src={model.picture_url} height="100" alt={model.name} style={{objectFit: 'contain'}} /></td>
+                                <td><button onClick={() => handleDelete(model.id)} className="btn btn-link">
+                                    Delete
+                                </button></td>
                             </tr>
                         ))}
                     </tbody>

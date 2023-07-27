@@ -16,6 +16,16 @@ function MakeList() {
     }
   };
 
+  const handleDelete = async (id) => {
+    const response = await fetch(`http://localhost:8100/api/manufacturers/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+      fetchMakes();
+    }
+  };
+
   return (
     <div>
         <h1>Manufacturers</h1>
@@ -30,6 +40,9 @@ function MakeList() {
                     {makes.map(make => (
                         <tr key={make.id}>
                         <td>{make.name}</td>
+                        <td><button onClick={() => handleDelete(make.id)} className="btn btn-link">
+                            Delete
+                        </button></td>
                         </tr>
                     ))}
                 </tbody>

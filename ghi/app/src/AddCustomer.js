@@ -14,7 +14,16 @@ const AddCustomer = (props) => {
           [event.target.name]: event.target.value
         });
     };
-    
+
+    const handleCancel = async (event) => {
+      console.log("cancel")
+      setForm({
+          first_name: '',
+          last_name: '',
+          address: '',
+          phone_number: ''
+        });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -45,7 +54,7 @@ const AddCustomer = (props) => {
           });
         }
     };
-
+    console.log(form)
     return (
       <div className="row">
         <div className="offset-3 col-6">
@@ -69,7 +78,7 @@ const AddCustomer = (props) => {
                     <label htmlFor="phone_number">Phone Number</label>
                   </div>
                 <button className="btn btn-primary">Create</button>
-                <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+                <button onClick={handleCancel} className="btn btn-secondary mx-2">Cancel</button>
             </form>
           </div>
         </div>

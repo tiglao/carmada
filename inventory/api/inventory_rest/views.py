@@ -21,10 +21,18 @@ def api_automobiles(request):
     else:
         try:
             content = json.loads(request.body)
-            model_id = content["model_id"]
-            model = VehicleModel.objects.get(pk=model_id)
+
+            if type(content["year"]) == str:
+                content["year"] = int(content["year"])
+
+            if type(content["model"]) == str:
+                content["model"] = int(content["model"])
+
+            model_id = content["model"]
+
+            model = VehicleModel.objects.get(id=model_id)
+
             content["model"] = model
-            print(content)
             auto = Automobile.objects.create(**content)
             return JsonResponse(
                 auto,
@@ -168,8 +176,12 @@ def api_vehicle_models(request):
         try:
             content = json.loads(request.body)
             manufacturer_id = content["manufacturer_id"]
+            print(manufacturer_id)
+            if type(manufacturer_id) == str:
+                manufacturer_id = int(manufacturer_id)
             manufacturer = Manufacturer.objects.get(id=manufacturer_id)
             content["manufacturer"] = manufacturer
+            print(content)
             model = VehicleModel.objects.create(**content)
             return JsonResponse(
                 model,
