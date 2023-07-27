@@ -63,9 +63,6 @@ const ApptForm = (props) => {
           technician_id: Number(form.technician)
         };
 
-        console.log("this is data from the form:", data)
-        console.log("this is data from the form:", JSON.stringify(data))
-
         const apptUrl = 'http://localhost:8080/api/appointments/';
         const fetchConfig = {
           method: "post",

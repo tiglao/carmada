@@ -39,6 +39,6 @@ class Appointment(models.Model):
         )
 
     def update_vip_status(self):
-        if self.auto.sold:
+        matching_auto = AutoVO.objects.filter(vin=self.vin, sold=True)
+        if matching_auto.exists():
             self.vip_status = True
-            self.save()

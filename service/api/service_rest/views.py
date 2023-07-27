@@ -49,7 +49,7 @@ def api_list_techs(request):
             return response
 
 
-@require_http_methods(["GET", "POST", "DELETE"])
+@require_http_methods(["GET", "PUT", "DELETE"])
 def api_detail_tech(request, id):
     if request.method == "GET":
         try:
@@ -58,7 +58,7 @@ def api_detail_tech(request, id):
                 tech,
                 encoder=TechEncoder,
                 safe=False
-            )
+                )
         except Technician.DoesNotExist:
             return JsonResponse(
                 {"message": "No technician with this ID found."},
@@ -69,27 +69,15 @@ def api_detail_tech(request, id):
             return JsonResponse({"Deletion complete:": count > 0})
         except Exception as e:
             return JsonResponse({"message": f"An unexpected error occurred: {str(e)}"})
-
-    # else: # PUT
-    #     try:
-    #         content = json.loads(request.body)
-    #         tech = Technician.objects.get(id=pk)
-
-    #         props = ["closet_name", "shelf_number", "section_number"]
-    #         for prop in props:
-    #             if prop in content:
-    #                 setattr(tech, prop, content[prop])
-    #         tech.save()
-    #         return JsonResponse(
-    #             tech,
-    #             encoder=technicianEncoder,
-    #             safe=False,
-    #         )
-    #     except Technician.DoesNotExist:
-    #         response = JsonResponse({"message": "Does not exist"})
-    #         response.status_code = 404
-    #         return response
-
+    else:
+        content = json.loads(request.body)
+        Technician.objects.filter(id=id).update(**content)
+        tech = Technician.objects.get(id=id)
+        return JsonResponse(
+            tech,
+            encoder=TechEncoder,
+            safe=False,
+        )
 
 def serialize_appointment(appt):
     return {

@@ -6,7 +6,7 @@ import ListCustomers from './ListCustomers'
 import AddCustomer from './AddCustomer'
 import ListSales from './ListSales'
 import AddSales from './AddSales'
-import ListSalesPerson from './ListSalesperson.js'
+import ListSalesPerson from './ListSalesPerson.js'
 import AddSalesPerson from './AddSalesPerson'
 import ApptForm from './ApptForm';
 import TechForm from './TechForm';
@@ -17,7 +17,10 @@ import MakeList from './MakeList';
 import MakeForm from './MakeForm';
 import ModelList from './ModelList';
 import ModelForm from './ModelForm';
-import SalesHistory from './SalesHistory'
+import SalesHistory from './SalesHistory';
+import ListAutomobiles from './ListAutomobiles';
+import AddAutomobiles from './AddAutomobiles';
+
 
 function App() {
   return (
@@ -30,6 +33,7 @@ function App() {
           <Route path="/customers/new" element={<AddCustomer />} />
           <Route path="/sales" element={<ListSales />} />
           <Route path="/sales/new" element={<AddSales />} />
+          <Route path="/sales/history" element={<SalesHistory />} />
           <Route path="/salesperson" element={<ListSalesPerson />} />
           <Route path="/salesperson/new" element={<AddSalesPerson />} />
           <Route path="/appointments" element={<ApptList />} />
@@ -41,6 +45,8 @@ function App() {
           <Route path="/manufacturers/new" element={<MakeForm />} />
           <Route path="/models" element={<ModelList />} />
           <Route path="/models/new" element={<ModelForm />} />
+          <Route path="/automobiles" element={<ListAutomobiles />} />
+          <Route path="/automobiles/new" element={<AddAutomobiles />} />
         </Routes>
       </div>
     </BrowserRouter>
