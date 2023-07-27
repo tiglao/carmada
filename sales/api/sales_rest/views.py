@@ -17,7 +17,7 @@ def api_sales(request):
         try:
             content = json.loads(request.body)
             payload = {}
-            #get the salesperson id
+            # get the salesperson id
             payload["salesperson"] = Salesperson.objects.get(employee_id = content["employee_id"])
             print(payload["salesperson"])
             print("-----------------------------------")

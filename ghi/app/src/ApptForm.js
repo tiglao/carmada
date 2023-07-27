@@ -15,7 +15,6 @@ const ApptForm = (props) => {
       fetchTechnicians();
     }, []);
 
-
     async function fetchTechnicians() {
       const url = 'http://localhost:8080/api/technicians/';
 
@@ -32,7 +31,6 @@ const ApptForm = (props) => {
         console.error('Fetch error:', error);
       }
     }
-
 
     const handleChange = (event) => {
         setForm({
@@ -88,7 +86,6 @@ const ApptForm = (props) => {
           setForm(prevState => ({...prevState, ...cleared}));
         }
       };
-
     return (
       <div className="row">
         <div className="offset-3 col-6">

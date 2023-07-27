@@ -14,7 +14,7 @@ const AddCustomer = (props) => {
           [event.target.name]: event.target.value
         });
     };
-    
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -45,7 +45,7 @@ const AddCustomer = (props) => {
           });
         }
     };
-
+    console.log(form)
     return (
       <div className="row">
         <div className="offset-3 col-6">
