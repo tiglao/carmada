@@ -10,6 +10,23 @@ function ApptList() {
         fetchAutos();
     }, []);
 
+    const fetchAppts = async () => {
+        const response = await fetch('http://localhost:8080/api/appointments/')
+        if (response.ok) {
+            const data = await response.json();
+            const activeAppts = data.appts.filter(appt => appt.appt_status !== 'canceled' && appt.appt_status !== 'finished');
+            setAppts(activeAppts);
+        }
+    };
+
+    const fetchAutos = async () => {
+        const response = await fetch('http://localhost:8080/api/autosvo/')
+        if (response.ok) {
+            const data = await response.json();
+            setAutos(data.autos);
+        }
+    };
+
     const handleCancel = async (id) => {
         const response = await fetch(`http://localhost:8080/api/appointments/${id}/cancel`, {
             method: 'PUT',
@@ -27,23 +44,6 @@ function ApptList() {
 
         if (response.ok) {
             fetchAppts();
-        }
-    };
-
-    const fetchAppts = async () => {
-        const response = await fetch('http://localhost:8080/api/appointments/')
-        if (response.ok) {
-            const data = await response.json();
-            const activeAppts = data.appts.filter(appt => appt.appt_status !== 'canceled' && appt.appt_status !== 'finished');
-            setAppts(activeAppts);
-        }
-    };
-
-    const fetchAutos = async () => {
-        const response = await fetch('http://localhost:8080/api/autosvo/')
-        if (response.ok) {
-            const data = await response.json();
-            setAutos(data.autos);
         }
     };
 
@@ -65,7 +65,6 @@ function ApptList() {
                         </tr>
                     </thead>
                     {appts.map(appt => {
-                        console.log(appt)
                         const date = new Date(appt.date_time).toLocaleDateString();
                         const time = new Date(appt.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                         const isVip = autos.some(auto => auto.vin === appt.vin && auto.sold);

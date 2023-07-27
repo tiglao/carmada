@@ -48,8 +48,6 @@ const TechForm = (props) => {
             lastName: '',
             employeeId: ''
           });
-
-          props.onFormSubmit();
         }
     };
 

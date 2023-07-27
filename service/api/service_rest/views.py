@@ -132,7 +132,6 @@ def api_detail_appt(request, id, action=None):
     if request.method == "GET":
         try:
             appt = Appointment.objects.get(id=id)
-            print("this is the get:", appt)
             return JsonResponse(
                 appt,
                 encoder=ApptDetailEncoder,
@@ -150,6 +149,30 @@ def api_detail_appt(request, id, action=None):
             return JsonResponse({"message": f"An unexpected error occurred: {str(e)}"})
 
     else:
+        if action is None:
+            pass
+        elif action == "cancel":
+            appt = Appointment.objects.get(id=id)
+            appt.appt_status = "canceled"
+            appt.save()
+            return JsonResponse(
+                appt,
+                encoder=ApptDetailEncoder,
+                safe=False,
+            )
+        elif action == "finish":
+            appt = Appointment.objects.get(id=id)
+            appt.appt_status = "finished"
+            appt.save()
+            return JsonResponse(
+                appt,
+                encoder=ApptDetailEncoder,
+                safe=False,
+            )
+        else:
+            return JsonResponse(
+                {"message": "Invalid action for PUT request."},
+                status=400)
         content = json.loads(request.body)
         try:
             if "technician" in content:
@@ -164,17 +187,7 @@ def api_detail_appt(request, id, action=None):
         appt = Appointment.objects.get(id=id)
         appt.update_vip_status()
         appt.save()
-        print("this should show vip status is true", appt)
-        if action is None:
-            pass
-        elif action == "cancel":
-            appt.appt_status = "canceled"
-        elif action == "finish":
-            appt.appt_status = "finished"
-        else:
-            return JsonResponse(
-                {"message": "Invalid action for PUT request."},
-                status=400)
+
 
         return JsonResponse(
             appt,
