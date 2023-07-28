@@ -148,7 +148,7 @@ const AddSales = (props) => {
                 </div>
                 <div className="mb-3">
                     <select onChange={handleAutomobileChange} required name="automobiles" id="automobiles" className="form-select" multiple={false}>
-                      <option>Choose an automobile:</option>
+                      <option>Choose an automobile VIN:</option>
                       {form.automobiles.map(automobiles => {
                         return (
                           <option key={automobiles.id} value={automobiles.vin} style={{textTransform: 'capitalize'}}>

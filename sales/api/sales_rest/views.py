@@ -17,6 +17,7 @@ def api_sales(request):
         try:
             content = json.loads(request.body)
             payload = {}
+
             # get the salesperson id
             payload["salesperson"] = Salesperson.objects.get(employee_id = content["employee_id"])
 
@@ -26,10 +27,11 @@ def api_sales(request):
             # get the vin
             payload["automobile"] = AutomobileVO.objects.get(vin=content["vin"])
 
-            if content["price"] == str:
-                content["price"] = int(content["price"])
-            payload["price"] = content["price"]
-
+            if type(content["price"]) == int:
+                price = content["price"]
+            else:
+                price = int ( ''.join(filter(str.isdigit, content["price"])))
+            payload["price"] = price
             sale = Sale.objects.create(**payload)
             return JsonResponse(
                 sale,
