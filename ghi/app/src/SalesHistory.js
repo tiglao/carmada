@@ -39,6 +39,15 @@ const SalesHistory = (props) => {
       getArrays();
     }
 
+    const handleCancel = async (event) => {
+      setForm({
+          salesperson: '',
+          salespeople: [],
+          sales: []
+        });
+      getArrays();
+    };
+
     const handleSalespersonChange = async (event) => {
         const value = event.target.value;
         setForm(previousState => {
@@ -70,7 +79,7 @@ const SalesHistory = (props) => {
                       </select>
                   </div>
                   <button className="btn btn-primary">Create</button>
-                  <a href="#" onClick={props.onCancel} style={{marginLeft: '10px', color: 'gray', fontSize: '0.8em', textDecoration: 'none'}}>Cancel</a>
+                  <button onClick={handleCancel} className="btn btn-secondary mx-2">Cancel</button>
               </form>
             </div>
           </div>
@@ -93,7 +102,7 @@ const SalesHistory = (props) => {
                       </tr>
                   </thead>
 
-                  {form.sales.filter(sale => sale.salesperson.id == form.salesperson).map(sale => {
+                  {form.sales.filter(sale => sale.salesperson.id === form.salesperson).map(sale => {
                       return (
                         <tbody key={sale.id}>
                             <tr className="col mb-3">
@@ -115,7 +124,7 @@ const SalesHistory = (props) => {
       )
     }
     function LoadPage(props) {
-    if (form.salesperson == '') {
+    if (form.salesperson === '') {
         return <LoadForm />;
           } else {
         return <LoadList />;

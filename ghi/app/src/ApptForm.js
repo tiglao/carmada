@@ -67,7 +67,7 @@ const ApptForm = (props) => {
         let data = {
           date_time: `${form.date}T${form.time}:00+00:00`,
           customer: form.customer,
-          vip_status: false,
+          vip_status: isVip,
           vin: form.vin,
           reason: form.reason,
           appt_status: "created",
