@@ -40,7 +40,6 @@ const ApptForm = (props) => {
     };
 
     const handleCancel = async (event) => {
-      console.log("cancel")
       setForm({
         vin: '',
         customer: '',
