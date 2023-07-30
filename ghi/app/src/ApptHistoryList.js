@@ -13,6 +13,7 @@ function ApptList() {
         const response = await fetch('http://localhost:8080/api/appointments/')
         if (response.ok) {
             const data = await response.json();
+            console.log("all the data:", data)
             setAppts(data.appts);
         }
     };
@@ -50,6 +51,7 @@ function ApptList() {
                             </tr>
                         </thead>
                         {filteredAppts.map(appt => {
+                            console.log("what goes on into each appt:", appt)
                             const date = new Date(appt.date_time).toLocaleDateString();
                             const time = new Date(appt.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                             return (

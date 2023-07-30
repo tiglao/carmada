@@ -89,6 +89,7 @@ def serialize_appointment(appt):
         "reason": appt.reason,
         "appt_status": appt.appt_status,
         "technician": {
+            "id": appt.technician.id,
             "first_name": appt.technician.first_name,
             "last_name": appt.technician.last_name,
             "employee_id": appt.technician.employee_id
