@@ -26,25 +26,58 @@ function ApptList() {
         setShowForm(true);
     };
 
-    const handleApptCancel = async (id) => {
-        const response = await fetch(`http://localhost:8080/api/appointments/${id}/cancel`, {
-            method: 'PUT',
-        });
+    // const handleApptCancel = async (id) => {
+    //     const response = await fetch(`http://localhost:8080/api/appointments/${id}/cancel`, {
+    //         method: 'PUT',
+    //     });
 
-        if (response.ok) {
-            fetchAppts();
+    //     if (response.ok) {
+    //         fetchAppts();
+    //     }
+    // };
+
+    const handleApptCancel = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/appointments/${id}/cancel`, {
+                method: 'PUT',
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error. Status: ${response.status}`);
+            } else {
+                fetchAppts();
+            }
+        } catch (error) {
+            console.log("An error occurred:", error.message);
         }
     };
+
 
     const handleApptFinish = async (id) => {
-        const response = await fetch(`http://localhost:8080/api/appointments/${id}/finish`, {
-            method: 'PUT',
-        });
+        try {
+            const response = await fetch(`http://localhost:8080/api/appointments/${id}/finish`, {
+                method: 'PUT',
+            });
 
-        if (response.ok) {
-            fetchAppts();
+            if (!response.ok) {
+                throw new Error(`HTTP error. Status: ${response.status}`);
+            } else {
+                await fetchAppts();
+            }
+        } catch (error) {
+            console.error("An error occurred:", error.message);
         }
     };
+
+    // const handleApptFinish = async (id) => {
+    //     const response = await fetch(`http://localhost:8080/api/appointments/${id}/finish`, {
+    //         method: 'PUT',
+    //     });
+
+    //     if (response.ok) {
+    //         fetchAppts();
+    //     }
+    // };
 
     const handleCancel = () => {
         resetForm();
@@ -133,13 +166,13 @@ function ApptList() {
                                             <td>{`${appt.technician.first_name} ${appt.technician.last_name}`}</td>
                                             <td>{appt.reason}</td>
                                             <td>
-                                                <button onClick={() => handleUpdate(appt)} className="btn btn-primary">
+                                                <button onClick={() => handleUpdate(appt)} className="btn btn-primary" style={{ marginRight: '20px' }}>
                                                     Update
                                                 </button>
-                                                <button onClick={() => handleApptCancel(appt.id)} className="btn btn-primary">
+                                                <button onClick={() => handleApptCancel(appt.id)} className="btn btn-primary" style={{ marginRight: '20px' }}>
                                                     Cancel
                                                 </button>
-                                                <button onClick={() => handleApptFinish(appt.id)} className="btn btn-primary">
+                                                <button onClick={() => handleApptFinish(appt.id)} className="btn btn-primary" style={{ marginRight: '20px' }}>
                                                     Finish
                                                 </button>
                                             </td>
